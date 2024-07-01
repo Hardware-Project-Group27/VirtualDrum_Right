@@ -27,19 +27,21 @@ void BatteryL::BatteryInit( WebSocketCon *ws) {
     
 }
 
+// related to OLED display set battery level when received from websocket server
 int BatteryL::getBattery1Level(){
   return battery1Level;
 }
 int BatteryL::getBattery2Level(){
   return battery2Level;
 }
-void BatteryL::setBattery1Level(int level){
+void BatteryL::setBattery1Level(int level){  
   battery1Level = level;
 }
 void BatteryL::setBattery2Level(int level){
   battery2Level = level;
 }   
 
+// measure battery level and send it to websocket server
 void BatteryL::measureBatteryLevel(){
     if(millis() - lastBatteryCheck > CHECK_INTERVAL){
       if(thisGlove == 0){
@@ -56,6 +58,14 @@ void BatteryL::measureBatteryLevel(){
       wsCon.sendMsg(s);
       Serial.print("Battery Voltage ");
       Serial.println(battery.voltage());
+
+
+      // testing
+      wsCon.sendMsg("batReq:");
+
+      
     }
+
+
 }
 

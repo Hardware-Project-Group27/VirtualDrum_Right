@@ -1,18 +1,33 @@
 #include <Arduino.h>
+#include <Battery.h>
+#include "WebsocketCon.h"
+#include "BatteryL.h"
+// #include "WSMsgRecievedHandler.h"
 
-// put function declarations here:
-int myFunction(int, int);
+
+
+#define GLOVE_NO 1 // 0 for left, 1 for right glove
+
+WebSocketCon ws = WebSocketCon();
+BatteryL batteryL = BatteryL(GLOVE_NO,ACTIVATION_PIN);
+// WSMsgRecievedHandler wsMsgRecievedHandler = WSMsgRecievedHandler(GLOVE_NO);
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+   Serial.begin(115200);
+  
+   ws.setup();
+   batteryL.BatteryInit(&ws);
+  //  wsMsgRecievedHandler.setBatteryL(&batteryL);
+  //  wsMsgRecievedHandler.setWebSocketCon(&ws);
+  //  ws.setWSMsgRecievedHandler(&wsMsgRecievedHandler);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+
+  batteryL.measureBatteryLevel();
+  ws.loop();
+
+
 }
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
-}
