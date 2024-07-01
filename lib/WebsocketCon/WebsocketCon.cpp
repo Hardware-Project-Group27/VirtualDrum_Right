@@ -4,6 +4,7 @@
 #include <WiFi.h>
 #include <WebSockets.h>
 #include "WebsocketCon.h"
+#include "WSMsgRecievedHandler.h"
 #include "WiFi_Pass.h"
 
 
@@ -11,7 +12,6 @@
 
 
 WebSocketsClient  webSocket;
-// WSMsgRecievedHandler* wsMsgRecievedHandler;
 
 WebSocketCon::WebSocketCon() {
   // constructor

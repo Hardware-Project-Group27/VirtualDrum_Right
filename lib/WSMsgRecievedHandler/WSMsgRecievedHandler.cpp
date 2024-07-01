@@ -1,22 +1,22 @@
 #include "WSMsgRecievedHandler.h"
+#include <WebSockets.h>
+#include "WebsocketCon.h"
 #include "BatteryL.h"
-#include "WebSocketCon.h"
-
 
 
 WSMsgRecievedHandler::WSMsgRecievedHandler(int thisGlove){
   thisGlove = thisGlove;
 }
 
-void WSMsgRecievedHandler::setBatteryL(BatteryL* batteryL) {
-  this->batteryL = batteryL;
-}
+// void WSMsgRecievedHandler::setBatteryL(BatteryL* batteryL) {
+//   this->batteryL = batteryL;
+// }
 
-void WSMsgRecievedHandler::setWebSocketCon(WebSocketCon* webSocketCon) {
-  this->webSocketCon = webSocketCon;
-}
+// void WSMsgRecievedHandler::setWebSocketCon(WebSocketCon* webSocketCon) {
+//   this->webSocketCon = webSocketCon;
+// }
 
-void WSMsgRecievedHandler::handleMessage(const String& message) {
+void WSMsgRecievedHandler::handleMessage(const String& message,  WebSocketCon* webSocketCon ) {
   Serial.println("Received message: " + message);
 
   
@@ -36,19 +36,19 @@ void WSMsgRecievedHandler::handleMessage(const String& message) {
       int rightGloveBatLevel = rightGloveBatLevelStr.toInt();
 
       
-      if (batteryL != NULL) {
+      // if (batteryL != NULL) {
 
-        // we dont want to overwrite the local battery level from the servers data
-        // so we only should store the data of the other glove not this glove
-        if (thisGlove != 0) {
-          batteryL->setBattery1Level(leftGloveBatLevel);
-        } else if (thisGlove != 1) {
-          batteryL->setBattery2Level(rightGloveBatLevel);
+      //   // we dont want to overwrite the local battery level from the servers data
+      //   // so we only should store the data of the other glove not this glove
+      //   if (thisGlove != 0) {
+      //     batteryL->setBattery1Level(leftGloveBatLevel);
+      //   } else if (thisGlove != 1) {
+      //     batteryL->setBattery2Level(rightGloveBatLevel);
 
-      } else {
-        // for testing
-        Serial.println("BatteryL is NULL, It is ok if it is intentional");
-      }
+      // } else {
+      //   // for testing
+      //   Serial.println("BatteryL is NULL, It is ok if it is intentional");
+      // }
 
       // display?
       Serial.print("Left glove battery level: ");
@@ -71,7 +71,7 @@ void WSMsgRecievedHandler::handleMessage(const String& message) {
     }
     
   }
-}
+
 
 
 
