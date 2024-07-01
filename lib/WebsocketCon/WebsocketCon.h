@@ -22,7 +22,7 @@ class WebSocketCon{
         void setup();
         void loop();
         void sendMsg(String msg);
-        // void setWSMsgRecievedHandler(WSMsgRecievedHandler* wsMsgRecievedHandler);
+        void setWSMsgRecievedHandler(WSMsgRecievedHandler* wsMsgRecievedHandler);
 
 };
 

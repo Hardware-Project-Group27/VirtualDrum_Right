@@ -2,7 +2,7 @@
 #include <Battery.h>
 #include "WebsocketCon.h"
 #include "BatteryL.h"
-// #include "WSMsgRecievedHandler.h"
+#include "WSMsgRecievedHandler.h"
 
 
 
@@ -10,7 +10,7 @@
 
 WebSocketCon ws = WebSocketCon();
 BatteryL batteryL = BatteryL(GLOVE_NO,ACTIVATION_PIN);
-// WSMsgRecievedHandler wsMsgRecievedHandler = WSMsgRecievedHandler(GLOVE_NO);
+WSMsgRecievedHandler wsMsgRecievedHandler = WSMsgRecievedHandler(GLOVE_NO);
 
 void setup() {
    Serial.begin(115200);
@@ -18,8 +18,7 @@ void setup() {
    ws.setup();
    batteryL.BatteryInit(&ws);
   //  wsMsgRecievedHandler.setBatteryL(&batteryL);
-  //  wsMsgRecievedHandler.setWebSocketCon(&ws);
-  //  ws.setWSMsgRecievedHandler(&wsMsgRecievedHandler);
+   ws.setWSMsgRecievedHandler(&wsMsgRecievedHandler);
 }
 
 void loop() {

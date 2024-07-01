@@ -43,9 +43,9 @@ void WebSocketCon::setup()
 }
 
 
-// void WebSocketCon::setWSMsgRecievedHandler(WSMsgRecievedHandler* wsMsgRecievedHandler) {
-//   wsMsgRecievedHandler = wsMsgRecievedHandler;
-// }
+void WebSocketCon::setWSMsgRecievedHandler(WSMsgRecievedHandler* wsMsgRecievedHandler) {
+  wsMsgRecievedHandler = wsMsgRecievedHandler;
+}
 
 
 
