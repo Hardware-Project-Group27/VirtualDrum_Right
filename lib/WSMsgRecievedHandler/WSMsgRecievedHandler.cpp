@@ -8,9 +8,9 @@ WSMsgRecievedHandler::WSMsgRecievedHandler(int thisGlove){
   thisGlove = thisGlove;
 }
 
-// void WSMsgRecievedHandler::setBatteryL(BatteryL* batteryL) {
-//   this->batteryL = batteryL;
-// }
+void WSMsgRecievedHandler::setBatteryL(BatteryL* batteryL) {
+  this->batteryL = batteryL;
+}
 
 void WSMsgRecievedHandler::handleMessage(const String& message,  WebSocketCon* webSocketCon ) {
   Serial.println("Received message: " + message);

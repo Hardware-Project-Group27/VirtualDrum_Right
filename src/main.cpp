@@ -17,7 +17,7 @@ void setup() {
   
    ws.setup();
    batteryL.BatteryInit(&ws);
-  //  wsMsgRecievedHandler.setBatteryL(&batteryL);
+   wsMsgRecievedHandler.setBatteryL(&batteryL);
    ws.setWSMsgRecievedHandler(&wsMsgRecievedHandler);
 }
 
