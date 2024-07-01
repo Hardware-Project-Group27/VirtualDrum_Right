@@ -12,9 +12,9 @@ void WSMsgRecievedHandler::setBatteryL(BatteryL* batteryL) {
   this->batteryL = batteryL;
 }
 
-// void WSMsgRecievedHandler::setWebSocketCon(WebSocketCon* webSocketCon) {
-//   this->webSocketCon = webSocketCon;
-// }
+void WSMsgRecievedHandler::setWebSocketCon(WebSocketCon* webSocketCon) {
+  this->webSocketCon = webSocketCon;
+}
 
 void WSMsgRecievedHandler::handleMessage(const String& message) {
   Serial.println("Received message: " + message);
@@ -58,17 +58,17 @@ void WSMsgRecievedHandler::handleMessage(const String& message) {
     
     }
 
-    // else if (message.startsWith("ping:")) 
-    // {
-    //   if (webSocketCon != NULL) {
-    //   webSocketCon->sendMsg("pong");
-    //   } else {
-    //     // for testing
-    //     Serial.println("WebSocketCon is NULL, It is ok if it is intentional");
-    //   }
+    else if (message.startsWith("ping:")) 
+    {
+      if (webSocketCon != NULL) {
+      webSocketCon->sendMsg("pong");
+      } else {
+        // for testing
+        Serial.println("WebSocketCon is NULL, It is ok if it is intentional");
+      }
 
-    //   Serial.println("Pong ");
-    // }
+      Serial.println("Pong ");
+    }
     
   }
 }
