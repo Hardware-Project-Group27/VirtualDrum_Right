@@ -15,7 +15,7 @@ WSMsgRecievedHandler wsMsgRecievedHandler = WSMsgRecievedHandler(GLOVE_NO);
 void setup() {
    Serial.begin(115200);
   
-   ws.setup();
+   ws.setup(GLOVE_NO);
    batteryL.BatteryInit(&ws);
    wsMsgRecievedHandler.setBatteryL(&batteryL);
    ws.setWSMsgRecievedHandler(&wsMsgRecievedHandler);

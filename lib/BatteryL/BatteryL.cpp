@@ -24,7 +24,7 @@ BatteryL::BatteryL(int thisGloveBatteryNo ,int BatteryActivationPin){
 
 void BatteryL::BatteryInit( WebSocketCon *ws) {
     wsCon = *ws;
-    
+  
 }
 
 // related to OLED display set battery level when received from websocket server

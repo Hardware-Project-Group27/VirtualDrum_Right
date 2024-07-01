@@ -14,21 +14,27 @@
 WebSocketsClient  webSocket;
 
 WebSocketCon::WebSocketCon() {
-  // constructor
+  // costructor
+
 }
 
 
 void WebSocketCon::setup_websocket() {
     webSocket.begin(server_ip, server_port, "/");
     // event handler
-    webSocket.onEvent(webSocketEvent);
+    // webSocket.onEvent(webSocketEvent);
+	 webSocket.onEvent([this](WStype_t type, uint8_t * payload, size_t length) {
+        this->webSocketEvent(type, payload, length);
+    });
     // use HTTP Basic Authorization this is optional remove if not needed
     // webSocket.setAuthorization("user", "Password");
+	webSocket.enableHeartbeat(15000, 3000, 2);
     webSocket.setReconnectInterval(1000);
 }
 
-void WebSocketCon::setup()
+void WebSocketCon::setup(int gloveNo)
 {
+  this->gloveNo = gloveNo;
   WiFi.begin(ssid, password);
   Serial.print("Connecting to WiFi");
   while (WiFi.status() != WL_CONNECTED) {
@@ -43,8 +49,8 @@ void WebSocketCon::setup()
 }
 
 
-void WebSocketCon::setWSMsgRecievedHandler(WSMsgRecievedHandler* wsMsgRecievedHandler) {
-  wsMsgRecievedHandler = wsMsgRecievedHandler;
+void WebSocketCon::setWSMsgRecievedHandler(WSMsgRecievedHandler* handler) {
+  wsMsgRecievedHandler = handler;
 }
 
 
@@ -71,15 +77,14 @@ void WebSocketCon::webSocketEvent(WStype_t type, uint8_t * payload, size_t lengt
 		case WStype_CONNECTED:
 			Serial.printf("[WSc] Connected to url: %s\n", payload);
 			// send message to server when Connected
-			webSocket.sendTXT("Connected:RightGlove");
+			webSocket.sendTXT("con:" + String(gloveNo));
 			break;
 		case WStype_TEXT:
 			Serial.printf("[WSc] get text: %s\n", payload);
 
-      // if (wsMsgRecievedHandler != NULL) {
-      //   wsMsgRecievedHandler->handleMessage((char*)payload);
-      // }
-      
+			// handleMsg((char*)payload, this);
+			wsMsgRecievedHandler->handleMessage((char*)payload, this);
+
 			break;
 		case WStype_BIN:
 			Serial.printf("[WSc] get binary length: %u\n", length);
@@ -104,9 +109,9 @@ void WebSocketCon::sendMsg(String msg) {
   webSocket.sendTXT(msg);
 }
 
+
 void WebSocketCon::loop()
 {
   webSocket.loop();
-
-
 }
+

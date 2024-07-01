@@ -9,17 +9,16 @@ class WebSocketCon{
 
 
     private:
-
+        int gloveNo;    
         WSMsgRecievedHandler* wsMsgRecievedHandler;
-
         void setup_websocket();
-        static void hexdump(const void *mem, uint32_t len, uint8_t cols = 16);
-        static void webSocketEvent(WStype_t type, uint8_t * payload, size_t length);
+        void hexdump(const void *mem, uint32_t len, uint8_t cols = 16);
+        void webSocketEvent(WStype_t type, uint8_t * payload, size_t length);
 
 
     public:
         WebSocketCon();
-        void setup();
+        void setup(int thisGloveNo);
         void loop();
         void sendMsg(String msg);
         void setWSMsgRecievedHandler(WSMsgRecievedHandler* wsMsgRecievedHandler);

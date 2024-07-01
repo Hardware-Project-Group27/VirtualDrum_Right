@@ -15,8 +15,6 @@ void WSMsgRecievedHandler::setBatteryL(BatteryL* batteryL) {
 void WSMsgRecievedHandler::handleMessage(const String& message,  WebSocketCon* webSocketCon ) {
   Serial.println("Received message: " + message);
 
-  
-  
     // batLevels:60:75
     // 1st is bat level of left glove, 2nd is bat level of right glove
     
@@ -32,25 +30,28 @@ void WSMsgRecievedHandler::handleMessage(const String& message,  WebSocketCon* w
       int rightGloveBatLevel = rightGloveBatLevelStr.toInt();
 
       
-      // if (batteryL != NULL) {
+      if (batteryL != NULL) {
 
-      //   // we dont want to overwrite the local battery level from the servers data
-      //   // so we only should store the data of the other glove not this glove
-      //   if (thisGlove != 0) {
-      //     batteryL->setBattery1Level(leftGloveBatLevel);
-      //   } else if (thisGlove != 1) {
-      //     batteryL->setBattery2Level(rightGloveBatLevel);
+        // we dont want to overwrite the local battery level from the servers data
+        // so we only should store the data of the other glove not this glove
+        if (thisGlove != 0) {
+          batteryL->setBattery1Level(leftGloveBatLevel);
+        } else if (thisGlove != 1) {
+          batteryL->setBattery2Level(rightGloveBatLevel);
 
-      // } else {
-      //   // for testing
-      //   Serial.println("BatteryL is NULL, It is ok if it is intentional");
-      // }
+      } else {
+        // for testing
+        Serial.println("BatteryL is NULL, It is ok if it is intentional");
+      }
 
       // display?
       Serial.print("Left glove battery level: ");
       Serial.println(leftGloveBatLevel);
       Serial.print("Right glove battery level: ");
       Serial.println(rightGloveBatLevel);
+
+      // testing for fun
+      webSocketCon->sendMsg("bat:0:76");
     
     }
 
@@ -67,6 +68,7 @@ void WSMsgRecievedHandler::handleMessage(const String& message,  WebSocketCon* w
     }
     
   }
+}
 
 
 
