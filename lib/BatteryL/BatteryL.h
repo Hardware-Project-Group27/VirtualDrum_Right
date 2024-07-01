@@ -4,7 +4,7 @@
 #define SENSE_PIN 32
 #define ADC_RESOLUTION 12
 #define ACTIVATION_PIN 12
-#define CHECK_INTERVAL 2000
+#define CHECK_INTERVAL 10000  // keep this interval large, mpu fifo can overflow when reading battery level
 
 class BatteryL{
 

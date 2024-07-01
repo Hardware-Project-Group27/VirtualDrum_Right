@@ -51,17 +51,20 @@ void BatteryL::measureBatteryLevel(){
         battery2Level = battery.level();
       }
       lastBatteryCheck = millis();
-      Serial.print("Battery Level ");
-      Serial.println(battery.level());
+      // Serial.print("Battery Level ");
+    
+      // Serial.println(battery.level());
 
       String s = "bat:" + String(thisGlove) + ":" + String(battery.level());
+      // String s = "bat:0:24";
+
       wsCon.sendMsg(s);
-      Serial.print("Battery Voltage ");
-      Serial.println(battery.voltage());
+      // Serial.print("Battery Voltage ");
+      // Serial.println(battery.voltage());
 
 
       // testing
-      wsCon.sendMsg("batReq:");
+      // wsCon.sendMsg("batReq:");
 
       
     }
