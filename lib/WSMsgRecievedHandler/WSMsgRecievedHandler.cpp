@@ -51,8 +51,6 @@ void WSMsgRecievedHandler::handleMessage(const String& message,  WebSocketCon* w
       Serial.println(rightGloveBatLevel);
 
       // testing for fun
-      webSocketCon->sendMsg("bat:0:76");
-    
     }
 
     else if (message.startsWith("ping:")) 
