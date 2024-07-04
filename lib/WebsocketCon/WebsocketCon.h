@@ -5,6 +5,11 @@
 
 class WSMsgRecievedHandler; // forward declaration 
 
+extern String serverIP;
+extern int port;
+
+extern bool isConnectedToServer;
+extern unsigned long wsDisconnectedTime;
 class WebSocketCon{
 
 
