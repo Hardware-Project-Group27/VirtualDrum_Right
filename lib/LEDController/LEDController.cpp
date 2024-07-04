@@ -83,6 +83,11 @@ void LEDController::showAPEnabled() {
     int ledPins[] = {leftDrumPin, rightDrumPin, leftSymbolPin, rightSymbolPin};
     const unsigned long interval = 500;  
 
+    digitalWrite(leftDrumPin, LOW);
+    digitalWrite(rightDrumPin, LOW);
+    digitalWrite(leftSymbolPin, LOW);
+    digitalWrite(rightSymbolPin, LOW);
+
     if (currentMillis - previousMillis >= interval) {
         previousMillis = currentMillis;
 

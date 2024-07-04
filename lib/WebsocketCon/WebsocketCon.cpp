@@ -20,7 +20,8 @@ WebSocketCon::WebSocketCon() {
 
 
 void WebSocketCon::setup_websocket() {
-    webSocket.begin(server_ip, server_port, "/");
+
+    webSocket.begin(serverIP, port, "/");
     // event handler
     // webSocket.onEvent(webSocketEvent);
 	 webSocket.onEvent([this](WStype_t type, uint8_t * payload, size_t length) {
@@ -35,13 +36,6 @@ void WebSocketCon::setup_websocket() {
 void WebSocketCon::setup(int gloveNo)
 {
   this->gloveNo = gloveNo;
-  WiFi.begin(ssid, password);
-  Serial.print("Connecting to WiFi");
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("WiFi connected");
 
   setup_websocket();
 
@@ -73,9 +67,16 @@ void WebSocketCon::webSocketEvent(WStype_t type, uint8_t * payload, size_t lengt
 	switch(type) {
 		case WStype_DISCONNECTED:
 			Serial.printf("[WSc] Disconnected!\n");
+			if (isConnectedToServer) {
+				wsDisconnectedTime = millis(); // get the time at first disconnect
+			}
+			isConnectedToServer = false;
+
 			break;
 		case WStype_CONNECTED:
 			Serial.printf("[WSc] Connected to url: %s\n", payload);
+			isConnectedToServer = true;
+			Serial.printf("isConnectedToServer: %d\n", isConnectedToServer);
 			// send message to server when Connected
 			webSocket.sendTXT("con:" + String(gloveNo));
 			break;
