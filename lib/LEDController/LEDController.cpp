@@ -80,27 +80,27 @@ void LEDController::showAPEnabled() {
     static unsigned long previousMillis = 0;
     static int state = LOW;
     static int ledIndex = 0;
-    int ledPins[] = {leftDrumPin, rightDrumPin, leftSymbolPin, rightSymbolPin};
-    const unsigned long interval = 500;  
+    int ledPins[] = {rightDrumPin, leftDrumPin, leftSymbolPin, rightSymbolPin};
+
+    const unsigned long interval = 100;  
 
     digitalWrite(leftDrumPin, LOW);
     digitalWrite(rightDrumPin, LOW);
     digitalWrite(leftSymbolPin, LOW);
     digitalWrite(rightSymbolPin, LOW);
 
+
+    digitalWrite(ledPins[ledIndex], HIGH);
+
     if (currentMillis - previousMillis >= interval) {
         previousMillis = currentMillis;
-
-        for (int i = 0; i < 4; i++) {
-            digitalWrite(ledPins[i], LOW);
-        }
-
-        digitalWrite(ledPins[ledIndex], HIGH);
+        digitalWrite(ledPins[ledIndex], LOW);
 
         ledIndex++;
         if (ledIndex >= 4) {
             ledIndex = 0;  // Reset to start
         }
+
     }
 }
 

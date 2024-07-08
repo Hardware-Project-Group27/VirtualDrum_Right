@@ -132,17 +132,19 @@ void loop()
 
   batteryL.measureBatteryLevel();
 
-  if (isConnectedToServer && mpu6050Handler.isMPU6050Working())
-  {
-    mpu6050Handler.loop();
-    mpu6050Handler.getYawPitch(&yaw, &pitch);
-    instrumentSelector.selectInstrument(&yaw, &pitch, &selectedInstrumentID);
+  if (isConnectedToServer) {
+    if (mpu6050Handler.isMPU6050Working())
+    {
+      mpu6050Handler.loop();
+      mpu6050Handler.getYawPitch(&yaw, &pitch);
+      instrumentSelector.selectInstrument(&yaw, &pitch, &selectedInstrumentID);
 
-    // instrumentSelector.printInstrumentInfo(&selectedInstrumentID, &yaw, &pitch);
-  }
-  else
-  {
-    ledController.showMPU6050Error();
+      // instrumentSelector.printInstrumentInfo(&selectedInstrumentID, &yaw, &pitch);
+    }
+    else
+    {
+      ledController.showMPU6050Error();
+    }
   }
 
   // flex drum hit detect code
@@ -206,6 +208,8 @@ void loop()
 
   if (accessPoint.isStarted())
   {
+    ledController.showAPEnabled();
+
     dnsServer.processNextRequest();
     // Serial.println("AP mode");
     server.handleClient();
