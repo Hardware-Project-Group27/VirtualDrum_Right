@@ -9,7 +9,7 @@ int battery2Level;
 int thisGlove;
 int activationPin;
 unsigned long lastBatteryCheck = 0;
-Battery battery = Battery(3300, 4200, SENSE_PIN, ADC_RESOLUTION);
+Battery battery = Battery(5000,8400, SENSE_PIN, ADC_RESOLUTION);
 
 
 BatteryL::BatteryL(int thisGloveBatteryNo ,int BatteryActivationPin){
@@ -19,56 +19,48 @@ BatteryL::BatteryL(int thisGloveBatteryNo ,int BatteryActivationPin){
     battery2Level = 0;
     analogReadResolution(ADC_RESOLUTION);
     battery.onDemand(activationPin, HIGH);
-    battery.begin(4200, 2, &asigmoidal);
+    battery.begin(3300, 2.4925, &asigmoidal);
 }
 
 void BatteryL::BatteryInit( WebSocketCon *ws) {
     wsCon = *ws;
-  
 }
 
-// related to OLED display set battery level when received from websocket server
+
 int BatteryL::getBattery1Level(){
   return battery1Level;
 }
 int BatteryL::getBattery2Level(){
   return battery2Level;
 }
-void BatteryL::setBattery1Level(int level){  
+void BatteryL::setBattery1Level(int level){
   battery1Level = level;
 }
 void BatteryL::setBattery2Level(int level){
   battery2Level = level;
 }   
 
-// measure battery level and send it to websocket server
 void BatteryL::measureBatteryLevel(){
     if(millis() - lastBatteryCheck > CHECK_INTERVAL){
+      int batVoltage = battery.voltage(STABALIZE_DELAY);
+      int batLevel = battery.level(batVoltage);
       if(thisGlove == 0){
-        battery1Level = battery.level();
+        battery1Level = batLevel;
+        wsCon.sendMsg("batReq:");
       }
       else if(thisGlove == 1){
-        battery2Level = battery.level();
+        battery2Level = batLevel;
       }
       lastBatteryCheck = millis();
-      // Serial.print("Battery Level ");
-    
-      // Serial.println(battery.level());
 
-      String s = "bat:" + String(thisGlove) + ":" + String(battery.level());
-      // String s = "bat:0:24";
 
+      String s = "bat:" + String(thisGlove) + ":" + String(batLevel);
       wsCon.sendMsg(s);
-      // Serial.print("Battery Voltage ");
-      // Serial.println(battery.voltage());
 
-
-      // testing
-      // wsCon.sendMsg("batReq:");
-
-      
+      Serial.print("Battery Level ");
+      Serial.println(batLevel);
+      Serial.print("Battery Voltage ");
+      Serial.println(batVoltage);
     }
-
-
 }
 
