@@ -30,10 +30,10 @@ bool isConnectedToServer = false; // this will be set to true when the glove is 
 #define RESET_ANGLES_BTN 12
 
 // --- for Drum Select LED
-#define LEFT_SYMBOL_LED 5
-#define LEFT_DRUM_LED 17
-#define RIGHT_DRUM_LED 16
-#define RIGHT_SYMBOL_LED 18
+#define LEFT_SYMBOL_LED 17
+#define LEFT_DRUM_LED 16
+#define RIGHT_DRUM_LED 18
+#define RIGHT_SYMBOL_LED 5
 // ---
 
 WebServer server(80);

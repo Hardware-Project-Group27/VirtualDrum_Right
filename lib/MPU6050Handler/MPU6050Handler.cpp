@@ -188,17 +188,16 @@ void MPU6050Handler::getYawPitch(float *yaw, float *pitch)
 {
 
   *yaw = ypr[0] * 180 / M_PI - zeroYaw;
-  // currently tthe orientation is like, pitch is it is actually roll and roll is pitch , so im taking the roll here to do the pitch
-  // so i select roll from ypr[2] as pitch
-  *pitch = ypr[2] * 180 / M_PI - zeroPitch;
-  //  roll = ypr[1] * 180 / M_PI - zeroRoll;  // select pitch from ypr[1] as roll// this nevergona be used
+  *pitch = ypr[1] * 180 * -1 / M_PI - zeroPitch;  // pitch is inverted eg -40 is +90 and vice versa so multiply by 1 to make it right
+
+  // i didnt check roll yet 
 }
 
 void MPU6050Handler::resetAngles()
 {
   zeroYaw = ypr[0] * 180 / M_PI;
-  zeroPitch = ypr[2] * 180 / M_PI; // we have interchanged pitch with roll
-  zeroRoll = ypr[1] * 180 / M_PI;
+  zeroPitch = ypr[1] * 180 * -1 / M_PI; // // pitch is inverted eg -40 is +90 and vice versa so multiply by 1 to make it right
+  zeroRoll = ypr[2] * 180 / M_PI;
 }
 
 void MPU6050Handler::dmpDataReady()
