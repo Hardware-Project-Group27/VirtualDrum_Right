@@ -50,7 +50,7 @@ InstrumentSelector instrumentSelector = InstrumentSelector();
 LEDController ledController = LEDController(LEFT_DRUM_LED, RIGHT_DRUM_LED, LEFT_SYMBOL_LED, RIGHT_SYMBOL_LED);
 
 FlexSensor flexSensor(34);
-DrumHitDetector drumHitDetector(100); // Flex bend acceleration threshold is the parameter
+DrumHitDetector drumHitDetector(50); // Flex bend acceleration threshold is the parameter
 
 float yaw = 0;
 float pitch = 0;
