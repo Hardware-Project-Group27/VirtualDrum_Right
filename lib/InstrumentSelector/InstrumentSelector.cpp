@@ -5,21 +5,21 @@ InstrumentSelector::InstrumentSelector() {
 
   // instrument angle ranges
   bottomDrum1YawMin = -90.0;
-  bottomDrum1YawMax = -10.0;
+  bottomDrum1YawMax = -5.0;
   bottomDrum1PitchMin = -30.0;
   bottomDrum1PitchMax = 35.0;
 
-  bottomDrum2YawMin = 10.0;
+  bottomDrum2YawMin = 5.0;
   bottomDrum2YawMax = 90.0;
   bottomDrum2PitchMin = -30.0;
   bottomDrum2PitchMax = 35.0;
 
   symbol1YawMin = -90.0;
-  symbol1YawMax = -20.0;
+  symbol1YawMax = -5;
   symbol1PitchMin = 35.0;
   symbol1PitchMax = 90.0;
 
-  symbol2YawMin = 20.0;
+  symbol2YawMin = 5;
   symbol2YawMax = 90.0;
   symbol2PitchMin = 35.0;
   symbol2PitchMax = 90.0;
