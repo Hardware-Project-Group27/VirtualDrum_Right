@@ -1,5 +1,7 @@
 #include "MPU6050Handler.h"
 
+// #include "LEDController.h"
+
 #define INTERRUPT_PIN 19
 #define RESET_ANGLES_BTN 12
 
@@ -17,6 +19,7 @@ MPU6050Handler::MPU6050Handler(int interrupt_Pin, int resetAnglesBtn_Pin)
 
 void MPU6050Handler::setup()
 {
+  this->ledController->lightUpAll();
 
   Serial.print(F("MPU setup function works"));
 
@@ -48,7 +51,6 @@ void MPU6050Handler::setup()
   // Calibrate gyro and accel
   mpu.CalibrateGyro();
   mpu.CalibrateAccel();
-
   // make sure it worked (returns 0 if so)
   if (devStatus == 0)
   {
@@ -69,6 +71,7 @@ void MPU6050Handler::setup()
     packetSize = mpu.dmpGetFIFOPacketSize();
 
     pinMode(resetAnglesBtnPin, INPUT_PULLUP);
+    this->ledController->turnOffAll();
   }
   else
   {
@@ -87,6 +90,10 @@ void MPU6050Handler::loop()
 
   mpuFunctionalityLoop();
   resetAnglesBtnLoop();
+}
+
+void MPU6050Handler::setLEDController(LEDController *LedController) {
+  this->ledController = LedController;
 }
 
 void MPU6050Handler::resetAnglesBtnLoop()
@@ -162,14 +169,14 @@ void MPU6050Handler::mpuFunctionalityLoop()
 
     // Serial.print("Print ");
 
-    Serial.print("ypr\t");
-    Serial.print(ypr[0] * 180 / M_PI);
-    Serial.print("\t");
-    Serial.print(ypr[1] * 180 / M_PI);
-    Serial.print("\t");
-    Serial.print(ypr[2] * 180 / M_PI);
-    Serial.print("\t");
-    Serial.print("\n");
+    // Serial.print("ypr\t");
+    // Serial.print(ypr[0] * 180 / M_PI);
+    // Serial.print("\t");
+    // Serial.print(ypr[1] * 180 / M_PI);
+    // Serial.print("\t");
+    // Serial.print(ypr[2] * 180 / M_PI);
+    // Serial.print("\t");
+    // Serial.print("\n");
   }
 }
 

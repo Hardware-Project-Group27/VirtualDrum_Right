@@ -105,21 +105,21 @@ void LEDController::showAPEnabled() {
 }
 
 void LEDController::lightUpAll() {
-    unsigned long currentMillis = millis();
-    static unsigned long previousMillis = 0;
-    static int state = LOW;
-    if (currentMillis - previousMillis >= 1000) {
-        previousMillis = currentMillis;
-        state = !state;
-        digitalWrite(leftDrumPin, state);
-        digitalWrite(rightDrumPin, state);
-        digitalWrite(leftSymbolPin, state);
-        digitalWrite(rightSymbolPin, state);
-    }
-    else {
-        digitalWrite(leftDrumPin, LOW);
-        digitalWrite(rightDrumPin, LOW);
-        digitalWrite(leftSymbolPin, LOW);
-        digitalWrite(rightSymbolPin, LOW);
-    }
+    
+    static int state = HIGH;
+    digitalWrite(leftDrumPin, state);
+    digitalWrite(rightDrumPin, state);
+    digitalWrite(leftSymbolPin, state);
+    digitalWrite(rightSymbolPin, state);
+
 }
+
+void LEDController::turnOffAll() {
+
+    static int state = LOW;
+    digitalWrite(leftDrumPin, state);
+    digitalWrite(rightDrumPin, state);
+    digitalWrite(leftSymbolPin, state);
+    digitalWrite(rightSymbolPin, state);
+}
+

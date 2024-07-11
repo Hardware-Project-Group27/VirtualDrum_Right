@@ -104,7 +104,10 @@ void setup()
   wsMsgRecievedHandler.setBatteryL(&batteryL);
 
   ws.setWSMsgRecievedHandler(&wsMsgRecievedHandler);
+  
+  mpu6050Handler.setLEDController(&ledController);
   mpu6050Handler.setup();
+
   instrumentSelector.setLEDController(&ledController);
 
   wsDisconnectedTime = millis();
@@ -149,7 +152,7 @@ void loop()
 
   // flex drum hit detect code
   int flexVal = flexSensor.read();
-  Serial.println(flexVal);
+  // Serial.println(flexVal);
 
   int avgFlexVal = flexSensor.readAverage(10); // 10 reads
 
