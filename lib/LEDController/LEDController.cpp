@@ -123,3 +123,79 @@ void LEDController::turnOffAll() {
     digitalWrite(rightSymbolPin, state);
 }
 
+void LEDController::showUpdateUploading() {
+    // pattern like loading 
+    unsigned long currentMillis = millis();
+    static unsigned long previousMillis = 0;
+    static int state = LOW;
+    static int ledIndex = 0;
+    digitalWrite(leftDrumPin, LOW);
+    digitalWrite(rightDrumPin, LOW);
+    digitalWrite(leftSymbolPin, LOW);
+    digitalWrite(rightSymbolPin, LOW);
+    int ledPins[] = {rightDrumPin, leftDrumPin, leftSymbolPin, rightSymbolPin};
+
+    const unsigned long interval = 300;  
+    
+    while (ledIndex < 4) {
+        currentMillis = millis();
+        if (currentMillis - previousMillis >= interval && ledIndex < 4) {
+            previousMillis = currentMillis;
+            digitalWrite(ledPins[ledIndex], HIGH);
+            ledIndex++;
+        }
+    }
+
+}
+
+void LEDController::showUpdateSuccess() {
+    unsigned long currentMillis = millis();
+    static unsigned long previousMillis = 0;
+    static int state = LOW;
+    static int ledIndex = 0;
+    int ledPins[] = {rightDrumPin, leftDrumPin, leftSymbolPin, rightSymbolPin};
+
+    const unsigned long interval = 100;  
+
+    for (int i = 0; i < 3; i++ ) {
+        digitalWrite(leftDrumPin, LOW);
+        digitalWrite(rightDrumPin, LOW);
+        digitalWrite(leftSymbolPin, HIGH);
+        digitalWrite(rightSymbolPin, HIGH);
+
+        delay(1000);
+
+        digitalWrite(leftDrumPin, LOW);
+        digitalWrite(rightDrumPin, LOW);
+        digitalWrite(leftSymbolPin, LOW);
+        digitalWrite(rightSymbolPin, LOW);
+    }        
+}
+
+
+void LEDController::showUpdateFailed() {
+    // pattern like loading 
+    unsigned long currentMillis = millis();
+    static unsigned long previousMillis = 0;
+    static int state = LOW;
+    static int ledIndex = 0;
+    int ledPins[] = {rightDrumPin, leftDrumPin, leftSymbolPin, rightSymbolPin};
+
+    const unsigned long interval = 100;
+
+    for (int i = 0; i < 3; i++ ) {
+        digitalWrite(leftDrumPin, LOW);
+        digitalWrite(rightDrumPin, HIGH);
+        digitalWrite(leftSymbolPin, HIGH);
+        digitalWrite(rightSymbolPin, LOW);
+
+        delay(1000);
+
+        digitalWrite(leftDrumPin, HIGH);
+        digitalWrite(rightDrumPin, LOW);
+        digitalWrite(leftSymbolPin, LOW);
+        digitalWrite(rightSymbolPin, HIGH);
+    } 
+
+}
+
