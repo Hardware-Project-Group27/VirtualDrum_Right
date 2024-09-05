@@ -1,6 +1,8 @@
 #ifndef MPU6050HANDLER_H
 #define MPU6050HANDLER_H
 
+#include "LEDController.h"
+
 #include "I2Cdev.h"
 #include "MPU6050_6Axis_MotionApps20.h"
 
@@ -17,11 +19,13 @@ public:
     void getYawPitch(float* yaw, float* pitch); // only yaw and pitch are used for now
     void resetAngles();
     bool isMPU6050Working();
+    void setLEDController(LEDController* LEDController);
 
 private:
     int interruptPin;
     int resetAnglesBtnPin;
 
+    LEDController* ledController;
     MPU6050 mpu;
     bool dmpReady;
     uint8_t mpuIntStatus;

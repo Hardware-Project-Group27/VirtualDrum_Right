@@ -105,21 +105,97 @@ void LEDController::showAPEnabled() {
 }
 
 void LEDController::lightUpAll() {
+    
+    static int state = HIGH;
+    digitalWrite(leftDrumPin, state);
+    digitalWrite(rightDrumPin, state);
+    digitalWrite(leftSymbolPin, state);
+    digitalWrite(rightSymbolPin, state);
+
+}
+
+void LEDController::turnOffAll() {
+
+    static int state = LOW;
+    digitalWrite(leftDrumPin, state);
+    digitalWrite(rightDrumPin, state);
+    digitalWrite(leftSymbolPin, state);
+    digitalWrite(rightSymbolPin, state);
+}
+
+void LEDController::showUpdateUploading() {
+    // pattern like loading 
     unsigned long currentMillis = millis();
     static unsigned long previousMillis = 0;
     static int state = LOW;
-    if (currentMillis - previousMillis >= 1000) {
-        previousMillis = currentMillis;
-        state = !state;
-        digitalWrite(leftDrumPin, state);
-        digitalWrite(rightDrumPin, state);
-        digitalWrite(leftSymbolPin, state);
-        digitalWrite(rightSymbolPin, state);
+    static int ledIndex = 0;
+    digitalWrite(leftDrumPin, LOW);
+    digitalWrite(rightDrumPin, LOW);
+    digitalWrite(leftSymbolPin, LOW);
+    digitalWrite(rightSymbolPin, LOW);
+    int ledPins[] = {rightDrumPin, leftDrumPin, leftSymbolPin, rightSymbolPin};
+
+    const unsigned long interval = 300;  
+    
+    while (ledIndex < 4) {
+        currentMillis = millis();
+        if (currentMillis - previousMillis >= interval && ledIndex < 4) {
+            previousMillis = currentMillis;
+            digitalWrite(ledPins[ledIndex], HIGH);
+            ledIndex++;
+        }
     }
-    else {
+
+}
+
+void LEDController::showUpdateSuccess() {
+    unsigned long currentMillis = millis();
+    static unsigned long previousMillis = 0;
+    static int state = LOW;
+    static int ledIndex = 0;
+    int ledPins[] = {rightDrumPin, leftDrumPin, leftSymbolPin, rightSymbolPin};
+
+    const unsigned long interval = 100;  
+
+    for (int i = 0; i < 3; i++ ) {
+        digitalWrite(leftDrumPin, LOW);
+        digitalWrite(rightDrumPin, LOW);
+        digitalWrite(leftSymbolPin, HIGH);
+        digitalWrite(rightSymbolPin, HIGH);
+
+        delay(1000);
+
         digitalWrite(leftDrumPin, LOW);
         digitalWrite(rightDrumPin, LOW);
         digitalWrite(leftSymbolPin, LOW);
         digitalWrite(rightSymbolPin, LOW);
-    }
+    }        
 }
+
+
+void LEDController::showUpdateFailed() {
+    // pattern like loading 
+    unsigned long currentMillis = millis();
+    static unsigned long previousMillis = 0;
+    static int state = LOW;
+    static int ledIndex = 0;
+    int ledPins[] = {rightDrumPin, leftDrumPin, leftSymbolPin, rightSymbolPin};
+
+    const unsigned long interval = 100;
+
+    for (int i = 0; i < 3; i++ ) {
+        digitalWrite(leftDrumPin, LOW);
+        digitalWrite(rightDrumPin, HIGH);
+        digitalWrite(leftSymbolPin, HIGH);
+        digitalWrite(rightSymbolPin, LOW);
+
+        delay(1000);
+
+        digitalWrite(leftDrumPin, HIGH);
+        digitalWrite(rightDrumPin, LOW);
+        digitalWrite(leftSymbolPin, LOW);
+        digitalWrite(rightSymbolPin, HIGH);
+    } 
+
+}
+

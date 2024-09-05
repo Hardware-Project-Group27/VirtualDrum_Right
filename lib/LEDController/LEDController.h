@@ -10,6 +10,10 @@ public:
     void showMPU6050Error();
     void showAPEnabled();
     void lightUpAll();
+    void turnOffAll();
+    void showUpdateUploading();
+    void showUpdateSuccess();
+    void showUpdateFailed();
 
 private:
     int leftDrumPin;

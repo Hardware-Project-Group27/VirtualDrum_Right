@@ -13,6 +13,7 @@
 #include "LEDController.h"
 #include "FlexSensor.h"
 #include "DrumHitDetector.h"
+#include "OTAManager.h"
 
 #define GLOVE_NO 1 // 0 for left, 1 for right glove
 
@@ -48,9 +49,10 @@ WSMsgRecievedHandler wsMsgRecievedHandler = WSMsgRecievedHandler(GLOVE_NO);
 MPU6050Handler mpu6050Handler = MPU6050Handler(INTERRUPT_PIN, RESET_ANGLES_BTN);
 InstrumentSelector instrumentSelector = InstrumentSelector();
 LEDController ledController = LEDController(LEFT_DRUM_LED, RIGHT_DRUM_LED, LEFT_SYMBOL_LED, RIGHT_SYMBOL_LED);
+OTAManager otaManager;
 
 FlexSensor flexSensor(34);
-DrumHitDetector drumHitDetector(100); // Flex bend acceleration threshold is the parameter
+DrumHitDetector drumHitDetector(50); // Flex bend acceleration threshold is the parameter
 
 float yaw = 0;
 float pitch = 0;
@@ -97,6 +99,8 @@ void setup()
     {
       Serial.println("\nFailed to connect to WiFi. Starting AP mode.");
       accessPoint.start();
+      otaManager.begin(&server, &ledController);
+
     }
   }
 
@@ -104,7 +108,10 @@ void setup()
   wsMsgRecievedHandler.setBatteryL(&batteryL);
 
   ws.setWSMsgRecievedHandler(&wsMsgRecievedHandler);
+  
+  mpu6050Handler.setLEDController(&ledController);
   mpu6050Handler.setup();
+
   instrumentSelector.setLEDController(&ledController);
 
   wsDisconnectedTime = millis();
@@ -127,6 +134,8 @@ void loop()
     {
       Serial.println("Failed to connect to server. Starting AP mode.");
       accessPoint.start();
+      otaManager.begin(&server, &ledController);
+
     }
   }
 
@@ -149,7 +158,7 @@ void loop()
 
   // flex drum hit detect code
   int flexVal = flexSensor.read();
-  Serial.println(flexVal);
+  // Serial.println(flexVal);
 
   int avgFlexVal = flexSensor.readAverage(10); // 10 reads
 
@@ -213,5 +222,7 @@ void loop()
     dnsServer.processNextRequest();
     // Serial.println("AP mode");
     server.handleClient();
+    otaManager.handle();  // Handle OTA updates
+
   }
 }
